@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bank Queue System | Queues in C++</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Bank Queue System</h1>
+    <p>An application of <strong>queues</strong> (first in, first out). The queue logic is written in C++ (<code>BankQueue.cpp</code>) and runs in your browser as WebAssembly.</p>
+  </header>
+
+  <main>
+    <section class="card serving">
+      <div class="label">Now serving</div>
+      <div id="servTicket" class="big">-</div>
+      <div id="servMeta" class="meta">Nobody has been called yet.</div>
+      <div class="row">
+        <button id="serveBtn">Call next customer</button>
+        <span id="nextInfo" class="meta"></span>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stat"><div class="label">Waiting</div><div id="waiting" class="stat-value">0</div></div>
+      <div class="stat"><div class="label">Served</div><div id="served" class="stat-value">0</div></div>
+    </section>
+
+    <section class="card">
+      <h2>Take a ticket</h2>
+      <div class="fields">
+        <label>Name (optional) <input id="name" maxlength="20" placeholder="e.g. Ama"></label>
+        <label>Service <select id="service"></select></label>
+      </div>
+      <label class="check"><input type="checkbox" id="vip"> VIP lane (always called first)</label>
+      <div class="row">
+        <button id="addBtn">Take ticket</button>
+        <button id="sampleBtn" class="secondary">Load sample</button>
+        <button id="clearBtn" class="secondary">Clear all</button>
+      </div>
+      <p id="message" role="status"></p>
+    </section>
+
+    <section class="lanes">
+      <div class="card"><h2>VIP lane <span id="vipCount" class="count"></span></h2><ol id="vipList" class="line"></ol></div>
+      <div class="card"><h2>Regular lane <span id="regCount" class="count"></span></h2><ol id="regList" class="line"></ol></div>
+    </section>
+
+    <section class="card">
+      <h2>Inside the arrays</h2>
+      <p class="note top">Each lane is a circular queue in a fixed array of 10 slots. <strong>F</strong> is the front (next to be served). <strong>R</strong> is the rear (next free slot). When R reaches the end it wraps to slot 0.</p>
+      <div class="arrlabel">VIP lane array</div>
+      <div id="vipArr" class="arr"></div>
+      <div class="arrlabel">Regular lane array</div>
+      <div id="regArr" class="arr"></div>
+      <p class="note">Take a ticket = enqueue at the rear, O(1). Call next = dequeue from the front, O(1). Nobody is shifted; the front index just moves on. Estimated waits come from walking the line, O(n).</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
